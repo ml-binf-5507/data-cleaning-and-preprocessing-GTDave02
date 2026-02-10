@@ -79,13 +79,13 @@ def detect_feature_types(df: pd.DataFrame, target: str, id_cols: List[str]) -> T
     """
     # TODO: Implement feature type detection
     # 1. Get all columns except target and id_cols:
-    #    feature_cols = [c for c in df.columns if c not in id_cols and c != target]
+    feature_cols = [c for c in df.columns if c not in id_cols and c != target]
     # 2. Identify categorical columns (dtype == 'object'):
-    #    cat_cols = [c for c in feature_cols if df[c].dtype == 'object']
+    cat_cols = [c for c in feature_cols if df[c].dtype == 'object']
     # 3. Identify numeric columns (dtype in [int, float]):
-    #    num_cols = [c for c in feature_cols if df[c].dtype in ['int64', 'float64']]
-    # 4. Return (cat_cols, num_cols)
-    pass
+    num_cols = [c for c in feature_cols if df[c].dtype in ['int64', 'float64']]
+    Return (cat_cols, num_cols)
+
 
 
 # ============================================================================
@@ -121,7 +121,10 @@ def encode_categorical(df: pd.DataFrame, cat_cols: List[str]) -> Tuple[pd.DataFr
     # HINT: When called in run_preprocessing(), you encode TRAIN first to get column names,
     # then when encoding TEST, you should only create those same columns (don't add new ones).
     # You can use pd.get_dummies(..., columns=...) or post-process to match columns.
-    pass
+    pd.get_dummies(df[col], prefix=col, dtype=int)
+    df.drop(col, axis=1, inplace=True)
+    df = pd.concat([df, encoded], axis=1)
+    Return (df_with_encoded_cols, list_of_encoded_column_names)
 
 
 # ============================================================================
@@ -148,7 +151,11 @@ def scale_numeric(df: pd.DataFrame, num_cols: List[str]) -> Tuple[pd.DataFrame, 
     #    b. Calculate mean and std: mean = col.mean(), std = col.std()
     #    c. Standardize: (col - mean) / std
     # 3. Return (scaled_df, means_dict, stds_dict)
-    pass
+
+    col.fillna(col.median())
+    mean = col.mean(), std = col.std()
+    (col - mean) / std
+    Return (scaled_df, means_dict, stds_dict)
 
 
 # ============================================================================
