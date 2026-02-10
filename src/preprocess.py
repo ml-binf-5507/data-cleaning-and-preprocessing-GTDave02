@@ -153,7 +153,8 @@ def scale_numeric(df: pd.DataFrame, num_cols: List[str]) -> Tuple[pd.DataFrame, 
     # 3. Return (scaled_df, means_dict, stds_dict)
 
     col.fillna(col.median())
-    mean = col.mean(), std = col.std()
+    mean = col.mean()
+    std = col.std()
     (col - mean) / std
     Return (scaled_df, means_dict, stds_dict)
 
