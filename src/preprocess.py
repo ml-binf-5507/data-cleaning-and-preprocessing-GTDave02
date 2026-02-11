@@ -84,7 +84,7 @@ def detect_feature_types(df: pd.DataFrame, target: str, id_cols: List[str]) -> T
     cat_cols = [c for c in feature_cols if df[c].dtype == 'object']
     # 3. Identify numeric columns (dtype in [int, float]):
     num_cols = [c for c in feature_cols if df[c].dtype in ['int64', 'float64']]
-    Return (cat_cols, num_cols)
+    return (cat_cols, num_cols)
 
 
 
@@ -121,10 +121,16 @@ def encode_categorical(df: pd.DataFrame, cat_cols: List[str]) -> Tuple[pd.DataFr
     # HINT: When called in run_preprocessing(), you encode TRAIN first to get column names,
     # then when encoding TEST, you should only create those same columns (don't add new ones).
     # You can use pd.get_dummies(..., columns=...) or post-process to match columns.
-    pd.get_dummies(df[col], prefix=col, dtype=int)
-    df.drop(col, axis=1, inplace=True)
-    df = pd.concat([df, encoded], axis=1)
-    Return (df_with_encoded_cols, list_of_encoded_column_names)
+    df_with_encoded_cols = df.copy()
+    list_of_encoded_column_names = []
+
+
+    for col in cat_cols:
+        encoded = pd.get_dummies(df_with_encoded_cols[col], prefix=col, dtype=int)
+        df.drop(col, axis=1, inplace=True)
+        df = pd.concat([df_with_encoded_cols, encoded], axis=1)
+        list_of_encoded_column_names.extend(encoded.columns)
+    return (df_with_encoded_cols, list_of_encoded_column_names)
 
 
 # ============================================================================
@@ -151,12 +157,18 @@ def scale_numeric(df: pd.DataFrame, num_cols: List[str]) -> Tuple[pd.DataFrame, 
     #    b. Calculate mean and std: mean = col.mean(), std = col.std()
     #    c. Standardize: (col - mean) / std
     # 3. Return (scaled_df, means_dict, stds_dict)
+    scaled_df = df.copy()
+    means_dict = {}
+    stds_dict = {}
 
-    col.fillna(col.median())
-    mean = col.mean()
-    std = col.std()
-    (col - mean) / std
-    Return (scaled_df, means_dict, stds_dict)
+    for col in num_cols:
+        df[col] = col.fillna(col.median())
+        mean = df[col].mean()
+        std = df[col].std()
+        df[col] = (col - mean) / std
+        means_dict.update({col: mean})
+        stds_dict.update({col: std})
+    return (scaled_df, means_dict, stds_dict)
 
 
 # ============================================================================
