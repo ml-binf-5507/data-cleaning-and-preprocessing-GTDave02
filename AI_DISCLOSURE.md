@@ -24,39 +24,33 @@ Do NOT:
 
 **Did you use any AI tools to help with this assignment?**
 
-_____ Yes     _____ No
+ Yes     
 
 **If yes, please tell us:**
 
 1. **What tools did you use?** (e.g., ChatGPT, Claude, GitHub Copilot)
    
-   _________________________________________________________________
+   ChatGPT
 
 2. **What specific things did you ask them to do?** (Be specific)
    
-   _________________________________________________________________
+   I used it to troubleshoot errors in the code by pasting error messages 
    
-   _________________________________________________________________
+   to help pinpoint problem code.
 
 3. **How much of your final code came from AI vs. your own work?** (e.g., "AI gave me the formula, I wrote the loop" or "AI helped me debug an error")
    
-   _________________________________________________________________
+   AI helped debug errors but all code was written and modified by me.
    
-   _________________________________________________________________
 
 4. **Can you explain your code?** (Can you walk through what each function does and why you wrote it that way?)
-   
-   _____ Yes, I can explain it well
-   
-   _____ Mostly, but I have some questions
-   
-   _____ No, I'm not sure I understand it
 
+   Mostly, but I have some questions
+   
 **Additional comments:**
 
-_________________________________________________________________
+Questions are not from AI but more generally with the structure of the pre-existing code.
 
-_________________________________________________________________
 
 ---
 

@@ -53,7 +53,7 @@ def remove_duplicates(df: pd.DataFrame, id_cols: List[str]) -> Tuple[pd.DataFram
     This function is PROVIDED as an example.
     """
     # Count how many duplicates we have
-    num_duplicates = df.duplicated().sum()
+    num_duplicates = int(df.duplicated().sum())
     
     # Remove duplicate rows (keeps first occurrence)
     df_clean = df.drop_duplicates().reset_index(drop=True)
@@ -165,7 +165,7 @@ def scale_numeric(df: pd.DataFrame, num_cols: List[str]) -> Tuple[pd.DataFrame, 
         scaled_df[col] = scaled_df[col].fillna(scaled_df[col].median())
         mean = scaled_df[col].mean()
         std = scaled_df[col].std()
-        scaled_df[col] = (scaled_df[col] - mean) / std
+        scaled_df[col] = (scaled_df[col] - scaled_df[col].mean()) / scaled_df[col].std()
         means_dict.update({col: float(mean)})
         stds_dict.update({col: float(std)})
     return (scaled_df, means_dict, stds_dict)
