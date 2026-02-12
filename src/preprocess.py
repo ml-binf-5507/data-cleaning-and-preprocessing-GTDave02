@@ -127,8 +127,8 @@ def encode_categorical(df: pd.DataFrame, cat_cols: List[str]) -> Tuple[pd.DataFr
 
     for col in cat_cols:
         encoded = pd.get_dummies(df_with_encoded_cols[col], prefix=col, dtype=int)
-        df.drop(col, axis=1, inplace=True)
-        df = pd.concat([df_with_encoded_cols, encoded], axis=1)
+        df_with_encoded_cols.drop(col, axis=1, inplace=True)
+        df_with_encoded_cols = pd.concat([df_with_encoded_cols, encoded], axis=1)
         list_of_encoded_column_names.extend(encoded.columns)
     return (df_with_encoded_cols, list_of_encoded_column_names)
 
@@ -162,12 +162,12 @@ def scale_numeric(df: pd.DataFrame, num_cols: List[str]) -> Tuple[pd.DataFrame, 
     stds_dict = {}
 
     for col in num_cols:
-        df[col] = col.fillna(col.median())
-        mean = df[col].mean()
-        std = df[col].std()
-        df[col] = (col - mean) / std
-        means_dict.update({col: mean})
-        stds_dict.update({col: std})
+        scaled_df[col] = scaled_df[col].fillna(scaled_df[col].median())
+        mean = scaled_df[col].mean()
+        std = scaled_df[col].std()
+        scaled_df[col] = (scaled_df[col] - mean) / std
+        means_dict.update({col: float(mean)})
+        stds_dict.update({col: float(std)})
     return (scaled_df, means_dict, stds_dict)
 
 
